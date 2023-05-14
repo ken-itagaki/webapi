@@ -1,3 +1,4 @@
+
 import requests
 
 ip_list = ["192.168.110.201",
@@ -11,8 +12,7 @@ params = ["action=get&object=ethernet_all",
           "action=get&object=lidar_data&key=lidar_range",
           "action=get&object=lidar_data&key=lidar_mode",
           "action=get&object=lidar_data&key=standbymode",
-          "action=get&object=lidar_data&key=code_range&security_code=921223",
-          "action=get&object=lidar_data&key=security_code_status"]
+          "action=get&object=lidar_data&key=code_range&security_code=921223"]
 
 def ethernet_all(response,ip):
     lidar_setting=response.json()["Body"]["IPv4"]
@@ -130,7 +130,7 @@ def code_range(response,ip):
     lidar_setting=response.json()
     print(lidar_setting)
     #if lidar_setting != "0":
-    #    print(ip,"Trigger_Method is wrong")
+    #    print(ip,"code is wrong")
      
 
 count = 0
@@ -140,14 +140,22 @@ for ip in ip_list:
         try:
             repo_url = f"http://{ip}/pandar.cgi?{param}"
             response = requests.get(repo_url)
-            ethernet_all(response,ip_list[count])
-            lidar_config(response,ip_list[count])
-            lidar_sync(response,ip_list[count])
-            lidar_range(response,ip_list[count])
-            lidar_mode(response,ip_list[count])
-            stanbymode(response,ip_list[count])
-            device_info(response,ip_list[count])
-            code_range(response,ip_list[count])
+            if param == params[0]:
+                ethernet_all(response,ip)
+            elif param == params[1]:
+                lidar_config(response,ip)
+            elif param == params[2]:
+                device_info(response,ip)
+            elif param ==params[3]:
+                 lidar_sync(response,ip)
+            elif param == params[4]:
+                lidar_range(response,ip)
+            elif param == params[5]:
+                lidar_mode(response,ip)
+            elif param == params[6]:
+                stanbymode(response,ip)
+            elif param == params[7]:
+                code_range(response,ip)
         except:
              pass
     count += 1
