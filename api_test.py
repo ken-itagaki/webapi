@@ -1,6 +1,6 @@
 import requests
 
-ip_list = ["http://192.168.110.201",
+ip_list = ["192.168.110.201",
            "192.168.110.202",
            "192,168,110.204"]
 
@@ -105,8 +105,8 @@ def lidar_range(response,ip):
             print(ip,"angle_setting_methods is wrong")
     lidar_setting=response.json()["Body"]["lidar_range"]
     print(lidar_setting)
-    if lidar_setting != "180":
-            print(ip,"lidar_range is wrong")
+    #if lidar_setting != "180":
+     #       print(ip,"lidar_range is wrong")
 
 def lidar_mode(response,ip):
     lidar_setting=response.json()["Body"]["lidar_mode"]
@@ -138,7 +138,7 @@ count = 0
 for ip in ip_list:
     for param in params:
         try:
-            repo_url = f"{ip}/{param}"
+            repo_url = f"http://{ip}/pandar.cgi?{param}"
             response = requests.get(repo_url)
             ethernet_all(response,ip_list[count])
             lidar_config(response,ip_list[count])
