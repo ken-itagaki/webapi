@@ -82,30 +82,32 @@ def lidar_config(response,ip):
         print(ip,"LogMinDelayReqInterval is wrong")
     lidar_setting=response.json()["Body"]["NoiseFiltering"]
     if lidar_setting != "1":
-            print(ip,"NoiseFiltering is wrong")
+        print(ip,"NoiseFiltering is wrong")
     lidar_setting=response.json()["Body"]["ReflectivityMapping"]
     if lidar_setting != "0":
-            print(ip,"ReflectivityMapping is wrong")
+        print(ip,"ReflectivityMapping is wrong")
     lidar_setting=response.json()["Body"]["PTPProfile"]
     if lidar_setting != "0":
-            print(ip,"PTPProfile is wrong")
+        print(ip,"PTPProfile is wrong")
     lidar_setting=response.json()["Body"]["Network"]
     if lidar_setting != "0":
-            print(ip,"Networks is wrong")
+        print(ip,"Networks is wrong")
 
 def lidar_sync(response,ip):
     lidar_setting=response.json()["Body"]["syncAngle"]
     if lidar_setting != "180":
-            print(ip,"syncAngle is wrong")
+        print(ip,"syncAngle is wrong")
 
 def lidar_range(response,ip):
     lidar_setting=response.json()["Body"]["angle_setting_method"]
-    if lidar_setting != "0":
-            print(ip,"angle_setting_methods is wrong")
+    if lidar_setting[0] != "0":
+        print(ip,"angle_setting_methods is wrong")
     lidar_setting=response.json()["Body"]["lidar_range"]
     print(lidar_setting)
-    #if lidar_setting != "180":
-     #       print(ip,"lidar_range is wrong")
+    if lidar_setting[0] != "900":
+        print(ip,"lidar_range is wrong")
+    if lidar_setting[1] != "2700":
+        print(ip, "lidar_range is wrong")
 
 def lidar_mode(response,ip):
     lidar_setting=response.json()["Body"]["lidar_mode"]
