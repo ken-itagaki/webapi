@@ -1,4 +1,3 @@
-
 import requests
 
 ip_list = ["192.168.110.201",
