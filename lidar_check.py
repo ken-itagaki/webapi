@@ -103,8 +103,8 @@ for ip in ip_list:
                 print(param)
                 device_info(response,ip)
             elif param ==params[3]:
-                 print(param)
-                 lidar_sync(response,ip)
+                print(param)
+                lidar_sync(response,ip)
             elif param == params[4]:
                 print(param)
                 lidar_range(response,ip)
