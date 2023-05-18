@@ -3,7 +3,7 @@ import json
 
 ip_list = ["192.168.110.201",
            "192.168.110.202",
-           "192,168,110.204"]
+           "192.168.110.204"]
 
 params = ["action=get&object=ethernet_all",
           "action=get&object=lidar_config",
@@ -11,8 +11,8 @@ params = ["action=get&object=ethernet_all",
           "action=get&object=lidar_sync",
           "action=get&object=lidar_data&key=lidar_range",
           "action=get&object=lidar_data&key=lidar_mode",
-          "action=get&object=lidar_data&key=standbymode",
-          "action=get&object=lidar_data&key=code_range&security_code=921223"]
+          "action=get&object=lidar_data&key=standbymode",]
+          #"action=get&object=lidar_data&key=code_range&key=security_code&value=921223"]
 
 def ethernet_all(response,ip):
     lidar_setting=response.json()["Body"]["Control_IP"]["IPv4"]
@@ -31,30 +31,24 @@ def lidar_config(response,ip):
     print(ip,"DestPort is",lidar_setting)
     lidar_setting=response.json()["Body"]["ClockSource"]
     print(ip,"ClockSource is",lidar_setting)
-    ptpconfig = json.loads(response.text)
-    lidar_setting=json.loads(ptpconfig["Body"]["PTPConfig"]["Domain"])
-    print(ip,"Domain is",lidar_setting)
-    ptpconfig = json.loads(response.text)
-    lidar_setting=json.loads(ptpconfig["Body"]["PTPConfig"]["LogAnnounceInterval"])
-    print(ip,"LogAnnounceInterval is",lidar_setting)
-    ptpconfig = json.loads(response.text)
-    lidar_setting=json.loads(ptpconfig["Body"]["PTPConfig"]["LogSyncInterval"])
-    print(ip,"LogSyncInterval is",lidar_setting)
-    ptpconfig = json.loads(response.text)
-    lidar_setting=json.loads(ptpconfig["Body"]["PTPConfig"]["LogMinDelayReqIntervals"])
-    print(ip,"LogMinDelayReqInterval is",lidar_setting)
+    lidar_setting=response.json()["Body"]["PTPConfig"]
+    print(ip,"Domain is",lidar_setting[10])
+    lidar_setting=response.json()["Body"]["PTPConfig"]
+    print(ip,"LogAnnounceInterval is",lidar_setting[46])
+    lidar_setting=response.json()["Body"]["PTPConfig"]
+    print(ip,"LogSyncInterval is",lidar_setting[66])
+    lidar_setting=response.json()["Body"]["PTPConfig"]
+    print(ip,"LogMinDelayReqInterval is",lidar_setting[93])
     ptpconfig = json.loads(response.text)
     lidar_setting=json.loads(ptpconfig["Body"]["NoiseFiltering"])
     print(ip,"NoiseFiltering is",lidar_setting)
     ptpconfig = json.loads(response.text)
     lidar_setting=json.loads(ptpconfig["Body"]["ReflectivityMapping"])
     print(ip,"ReflectivityMapping is",lidar_setting)
-    ptpconfig = json.loads(response.text)
-    lidar_setting=json.loads(ptpconfig["Body"]["PTPProfile"])
+    lidar_setting=response.json()["Body"]["PTPProfile"]
     print(ip,"PTPProfile is",lidar_setting)
-    ptpconfig = json.loads(response.text)
-    lidar_setting=json.loads(ptpconfig["Body"]["Networks"])
-    print(ip,"Networks is",lidar_setting)
+    lidar_setting=response.json()["Body"]["PTPConfig"]
+    print(ip,"Networks is",lidar_setting[22])
 
 def lidar_sync(response,ip):
     lidar_setting=response.json()["Body"]["syncAngle"]
@@ -90,35 +84,32 @@ count = 0
 
 for ip in ip_list:
     for param in params:
-        try:
-            repo_url = f"http://{ip}/pandar.cgi?{param}"
-            response = requests.get(repo_url)
-            if param == params[0]:
-                print(param)
-                ethernet_all(response,ip)
-            elif param == params[1]:
-                print(param)
-                lidar_config(response,ip)
-            elif param == params[2]:
-                print(param)
-                device_info(response,ip)
-            elif param ==params[3]:
-                print(param)
-                lidar_sync(response,ip)
-            elif param == params[4]:
-                print(param)
-                lidar_range(response,ip)
-            elif param == params[5]:
-                print(param)
-                lidar_mode(response,ip)
-            elif param == params[6]:
-                print(param)
-                stanbymode(response,ip)
-            elif param == params[7]:
-                print(param)
-                code_range(response,ip)
-        except:
-             pass
+        repo_url = f"http://{ip}/pandar.cgi?{param}"
+        response = requests.get(repo_url)
+        if param == params[0]:
+            print(param)
+            ethernet_all(response,ip)
+        elif param == params[1]:
+            print(param)
+            lidar_config(response,ip)
+        elif param == params[2]:
+            print(param)
+            device_info(response,ip)
+        elif param ==params[3]:
+            print(param)
+            lidar_sync(response,ip)
+        elif param == params[4]:
+            print(param)
+            lidar_range(response,ip)
+        elif param == params[5]:
+            print(param)
+            lidar_mode(response,ip)
+        elif param == params[6]:
+            print(param)
+            stanbymode(response,ip)
+        #elif param == params[7]:
+            #   print(param)
+            #  code_range(response,ip)
 
 
 
