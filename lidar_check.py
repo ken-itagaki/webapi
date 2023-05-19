@@ -14,13 +14,13 @@ params = ["action=get&object=ethernet_all",
           "action=get&object=lidar_data&key=code_range&security_code=921223"]
 
 def ethernet_all(response,ip):
-    lidar_setting=response.json()["Body"]["IPv4"]
+    lidar_setting=response.json()["Body"]["Control_IP"]["IPv4"]
     if lidar_setting != ip:
         print(ip,"IPaddress is wrong")
-    lidar_setting=response.json()["Body"]["Mask"]
+    lidar_setting=response.json()["Body"]["Control_IP"]["Mask"]
     if lidar_setting != "255.255.255.0":
         print(ip,"IPmask is wrong")
-    lidar_setting=response.json()["Body"]["Gateway"]
+    lidar_setting=response.json()["Body"]["Control_IP"]["Gateway"]
     if ip == "192.168.110.201"or"192.168.110.202"or"192.168.110.204":
         if lidar_setting != "192.168.110.1":
             print(ip,"IPGateway is wrong")
@@ -65,19 +65,19 @@ def lidar_config(response,ip):
     if lidar_setting != "1":
             print(ip,"ClockSource is wrong")
     lidar_setting=response.json()["Body"]["PTPConfig"]
-    ptpconfig = lidar_setting["Domain"]
+    ptpconfig = lidar_setting[10]
     if ptpconfig != "0":
         print(ip,"Domain is wrong")
     lidar_setting=response.json()["Body"]["PTPConfig"]
-    ptpconfig = lidar_setting["LogAnnounceInterval"]
+    ptpconfig = lidar_setting[46]
     if ptpconfig != "1":
         print(ip,"LogAnnounceInterval is wrong")
     lidar_setting=response.json()["Body"]["PTPConfig"]
-    ptpconfig = lidar_setting["LogSyncInterval"]
+    ptpconfig = lidar_setting[66]
     if ptpconfig != "1":
         print(ip,"LogSyncInterval is wrong")
     lidar_setting=response.json()["Body"]["PTPConfig"]
-    ptpconfig = lidar_setting["LogMinDelayReqInterval"]
+    ptpconfig = lidar_setting[93]
     if ptpconfig != "0":
         print(ip,"LogMinDelayReqInterval is wrong")
     lidar_setting=response.json()["Body"]["NoiseFiltering"]
@@ -89,7 +89,8 @@ def lidar_config(response,ip):
     lidar_setting=response.json()["Body"]["PTPProfile"]
     if lidar_setting != "0":
         print(ip,"PTPProfile is wrong")
-    lidar_setting=response.json()["Body"]["Network"]
+    lidar_setting=response.json()["Body"]["PTPConfig"]
+    ptpconfig = lidar_setting[22]
     if lidar_setting != "0":
         print(ip,"Networks is wrong")
 
@@ -100,7 +101,7 @@ def lidar_sync(response,ip):
 
 def lidar_range(response,ip):
     lidar_setting=response.json()["Body"]["angle_setting_method"]
-    if lidar_setting[0] != "0":
+    if lidar_setting != "0":
         print(ip,"angle_setting_methods is wrong")
     lidar_setting=response.json()["Body"]["lidar_range"]
     print(lidar_setting)
