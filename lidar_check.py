@@ -133,35 +133,37 @@ def code_range(response,ip):
     print(lidar_setting)
     #if lidar_setting != "0":
     #    print(ip,"code is wrong")
-     
 
-count = 0
-
-for ip in ip_list:
-    for param in params:
-        try:
-            repo_url = f"http://{ip}/pandar.cgi?{param}"
-            response = requests.get(repo_url)
-            if param == params[0]:
-                ethernet_all(response,ip)
-            elif param == params[1]:
-                lidar_config(response,ip)
-            elif param == params[2]:
-                device_info(response,ip)
-            elif param ==params[3]:
-                 lidar_sync(response,ip)
-            elif param == params[4]:
-                lidar_range(response,ip)
-            elif param == params[5]:
-                lidar_mode(response,ip)
-            elif param == params[6]:
-                stanbymode(response,ip)
-            elif param == params[7]:
-                code_range(response,ip)
-        except:
-             pass
-    count += 1
-    print(count)
+def main():
+    count = 0
+    for ip in ip_list:
+        for param in params:
+            try:
+                repo_url = f"http://{ip}/pandar.cgi?{param}"
+                response = requests.get(repo_url)
+                if param == params[0]:
+                    ethernet_all(response,ip)
+                elif param == params[1]:
+                    lidar_config(response,ip)
+                elif param == params[2]:
+                    device_info(response,ip)
+                elif param ==params[3]:
+                    lidar_sync(response,ip)
+                elif param == params[4]:
+                    lidar_range(response,ip)
+                elif param == params[5]:
+                    lidar_mode(response,ip)
+                elif param == params[6]:
+                    stanbymode(response,ip)
+                elif param == params[7]:
+                    code_range(response,ip)
+            except:
+                pass
+                count += 1
+        print(count)
+        
+if __name__ == '__main__':
+    main()
 
 
 
